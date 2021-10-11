@@ -11,24 +11,32 @@ const Admin = () => {
     const [dateEvents, setDateEvents] = useState([]);
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const { token } = JSON.parse(localStorage.getItem('user'));
+    const tokenUser = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
 
     const showModal = () => {
         setIsModalVisible(true);
     };
 
     const handleOk = () => {
-        setIsModalVisible(false);
+        axios.put(`http://localhost:3001/events/${selectedEvent.id}`,selectedEvent, tokenUser)
+            .then((res) => {
+                setDateEvents(dateEvents.map((record) => { return record.id === selectedEvent.id ? selectedEvent : record; }));
+                setIsModalVisible(false);
+                setSelectedEvent({});
+            }).catch((err) => {
+                console.log(err);
+            });
     };
 
     const handleCancel = () => {
         setIsModalVisible(false);
+        setSelectedEvent({});
     };
 
     useEffect(() => {
-        const { token } = JSON.parse(localStorage.getItem('user'));
-        const tokenUser = {
-            headers: { Authorization: `Bearer ${token}` }
-        };
         axios.get("http://localhost:3001/events", tokenUser)
             .then((res) => {
                 console.log(res);
@@ -40,10 +48,7 @@ const Admin = () => {
     }, [])
 
     const deleteEvent = async (id) => {
-        const { token } = JSON.parse(localStorage.getItem('user'));
-        const tokenUser = {
-            headers: { Authorization: `Bearer ${token}` }
-        };
+       
         try {
             await axios.delete(`http://localhost:3001/events/${id}`, tokenUser);
             setDateEvents(dateEvents.filter(element => element.id !== id));
@@ -99,12 +104,12 @@ const Admin = () => {
 
     return (
         <div>
-            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <p>{selectedEvent.id}</p>
+            <Modal title="Basic Modal" visible={isModalVisible} onOk={() => handleOk()} onCancel={handleCancel}>
+                <p>Id: {selectedEvent.id}</p>
                 
                 <form className="register-form">
                     <h4>Event <input type="text" name="event" value={selectedEvent.event} onChange={eventHandler} /></h4>
-                    <h4>Date <input type="date" name="date" value={selectedEvent.date} onChange={eventHandler} /></h4>
+                    <h4>Date:{selectedEvent.date} <input type="date" name="date" value={selectedEvent.date} onChange={eventHandler} /></h4>
                 </form>
                 {JSON.stringify(selectedEvent)}
               
