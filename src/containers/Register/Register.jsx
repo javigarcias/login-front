@@ -45,7 +45,6 @@ const Register = () => {
     }
     return (
         <div className="form">
-            {JSON.stringify(user, null, 2)}
             <form className="register-form" onSubmit={handleSubmit}>
                 <h4>First Name <input type="text" name="firstName" required onChange={eventHandler} /></h4>
                 <h4>Last Name <input type="text" name="lastName" required onChange={eventHandler}/></h4>
