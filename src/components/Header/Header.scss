@@ -1,0 +1,12 @@
+.header{
+    color: red;
+    min-height: 5vh;
+    a{
+        all: unset;
+        padding: 0.8em;
+        cursor: pointer;
+        &:hover {
+            background-color: wheat;
+        }
+    }
+}
