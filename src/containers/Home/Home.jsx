@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
 
 import './Home.scss';
 
@@ -28,7 +28,7 @@ const Home = () => {
         setLogin({ ...login, [ev.target.name]: ev.target.value });
     };
     return (
-        <div className="login">
+        <div className="formImputs">
             <Form
                 name="login"
                 labelCol={{
@@ -50,7 +50,7 @@ const Home = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your email!',
+                            message: 'This field is required!',
                         },
                     ]}
                 >
@@ -63,7 +63,7 @@ const Home = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your password!',
+                            message: 'This field is required!',
                         },
                     ]}
                 >
