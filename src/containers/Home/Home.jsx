@@ -17,7 +17,6 @@ const Home = () => {
         };
         axios.post('http://localhost:3001/users/login',user)
         .then(res=>{
-            console.log(res);
             localStorage.setItem("user", JSON.stringify(res.data));
             history.push("/admin")
 
