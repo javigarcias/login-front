@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { Table, Tag, Space, Button, Modal } from 'antd';
+import { Table, Space, Button, Modal } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+
 
 import './Admin.scss';
 
@@ -13,8 +13,7 @@ const Admin = () => {
     const [dateEvents, setDateEvents] = useState([]);
     const [newEvent, setNewEvent] = useState({
         event: "",
-        date: "",
-        UserId: 0
+        date: ""
     });
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -41,7 +40,7 @@ const Admin = () => {
         const tokenUser = {
             headers: { Authorization: `Bearer ${user.token}` }
         };
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/events/`, {...newEvent, UserId: user.id }, tokenUser)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/events/`, newEvent, tokenUser)
             .then((res) => {
                 setDateEvents([...dateEvents, newEvent]);
                 setIsModalVisible(false);
@@ -126,11 +125,6 @@ const Admin = () => {
             title: 'Date',
             dataIndex: 'date',
             key: 'date',
-        },
-        {
-            title: 'Id',
-            dataIndex: 'UserId',
-            key: 'UserId',
         },
         {
             title: 'Edit',

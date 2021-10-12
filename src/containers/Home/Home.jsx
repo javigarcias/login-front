@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';
 
 import './Home.scss';
@@ -79,6 +79,7 @@ const Home = () => {
                         Submit
                     </Button>
                 </Form.Item>
+                <Link to="/register">Registrate</Link>
             </Form>
 
         </div>
