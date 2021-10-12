@@ -16,7 +16,7 @@ const Home = () => {
     const handleSubmit = event => {
         event.preventDefault(); // para evitar refrescar la página
 
-        axios.post('http://localhost:3001/users/login', login)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/login`, login)
             .then(res => {
                 localStorage.setItem("user", JSON.stringify(res.data));
                 history.push("/admin")

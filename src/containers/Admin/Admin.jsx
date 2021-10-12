@@ -48,7 +48,7 @@ const Admin = () => {
     }
 
     const handleOk = () => {
-        axios.post('http://localhost:3001/events/', newEvent, tokenUser)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/events/`, newEvent, tokenUser)
             .then((res) => {
                 setDateEvents([...dateEvents, newEvent]);
                 setIsModalVisible(false);
@@ -64,7 +64,7 @@ const Admin = () => {
     };
 
     const handleEditOk = () => {
-        axios.put(`http://localhost:3001/events/${selectedEvent.id}`, selectedEvent, tokenUser)
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/events/${selectedEvent.id}`, selectedEvent, tokenUser)
             .then((res) => {
                 setDateEvents(dateEvents.map((record) => { return record.id === selectedEvent.id ? selectedEvent : record; }));
                 setIsModalEditVisible(false);
@@ -80,7 +80,7 @@ const Admin = () => {
     };
 
     useEffect(() => {
-        axios.get("http://localhost:3001/events", tokenUser)
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/events`, tokenUser)
             .then((res) => {
                 console.log(res);
                 setDateEvents(res.data);
@@ -93,7 +93,7 @@ const Admin = () => {
     const deleteEvent = async (id) => {
 
         try {
-            await axios.delete(`http://localhost:3001/events/${id}`, tokenUser);
+            await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/events/${id}`, tokenUser);
             setDateEvents(dateEvents.filter(element => element.id !== id));
         } catch (error) {
             console.log(error);

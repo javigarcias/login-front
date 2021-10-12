@@ -36,7 +36,7 @@ const Register = () => {
     const handleSubmit = event => {
         event.preventDefault(); // para evitar refrescar la página
         if (regExPassword.test(user.password))
-        axios.post('http://localhost:3001/users/register', user)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/register`, user)
             .then(res => {
                 message.success(`${res.data.firstName} Registrado correctamente`);
                 setTimeout(() => {
