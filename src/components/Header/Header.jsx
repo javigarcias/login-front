@@ -6,7 +6,7 @@ export const Header = () => {
     return (
         <header className="header">
             <Link to="/">Home</Link>
-            <Link to="/register">Login</Link>
+            <Link to="/register">Register</Link>
         </header>
     )
 }
