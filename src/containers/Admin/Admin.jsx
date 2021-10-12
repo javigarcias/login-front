@@ -6,18 +6,15 @@ import { useHistory } from 'react-router-dom';
 import './Admin.scss';
 
 const Admin = () => {
-    const history = useHistory();
-    const user = JSON.parse(localStorage.getItem('user'));
-    const tokenUser = {
-        headers: { Authorization: `Bearer ${user.token}` }
-    };
+
+
     const [searchEvent, setSearchEvent] = useState();
     const [selectedEvent, setSelectedEvent] = useState({});
     const [dateEvents, setDateEvents] = useState([]);
     const [newEvent, setNewEvent] = useState({
         event: "",
         date: "",
-        UserId: user.id
+        UserId: 0
     });
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -28,7 +25,7 @@ const Admin = () => {
             return dateEvents.filter(
                 element => element.event.includes(searchEvent)
             )
-            return dateEvents
+        return dateEvents
     };
 
 
@@ -39,16 +36,12 @@ const Admin = () => {
         setIsModalEditVisible(true);
     };
 
-    const createEvent = () => {
-        try {
-
-        } catch (error) {
-
-        }
-    }
-
     const handleOk = () => {
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/events/`, newEvent, tokenUser)
+        const user = JSON.parse(localStorage.getItem('user'));
+        const tokenUser = {
+            headers: { Authorization: `Bearer ${user.token}` }
+        };
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/events/`, {...newEvent, UserId: user.id }, tokenUser)
             .then((res) => {
                 setDateEvents([...dateEvents, newEvent]);
                 setIsModalVisible(false);
@@ -64,6 +57,10 @@ const Admin = () => {
     };
 
     const handleEditOk = () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const tokenUser = {
+            headers: { Authorization: `Bearer ${user.token}` }
+        };
         axios.put(`${process.env.REACT_APP_BACKEND_URL}/events/${selectedEvent.id}`, selectedEvent, tokenUser)
             .then((res) => {
                 setDateEvents(dateEvents.map((record) => { return record.id === selectedEvent.id ? selectedEvent : record; }));
@@ -80,6 +77,10 @@ const Admin = () => {
     };
 
     useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const tokenUser = {
+            headers: { Authorization: `Bearer ${user.token}` }
+        };
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/events`, tokenUser)
             .then((res) => {
                 console.log(res);
@@ -93,6 +94,10 @@ const Admin = () => {
     const deleteEvent = async (id) => {
 
         try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const tokenUser = {
+                headers: { Authorization: `Bearer ${user.token}` }
+            };
             await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/events/${id}`, tokenUser);
             setDateEvents(dateEvents.filter(element => element.id !== id));
         } catch (error) {

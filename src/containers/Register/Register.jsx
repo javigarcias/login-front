@@ -35,17 +35,21 @@ const Register = () => {
       };
     const handleSubmit = event => {
         event.preventDefault(); // para evitar refrescar la página
-        if (regExPassword.test(user.password))
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/register`, user)
-            .then(res => {
-                message.success(`${res.data.firstName} Registrado correctamente`);
-                setTimeout(() => {
-                    history.push("/")
-                }, 1500);
+        if (regExPassword.test(user.password)){
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/register`, user)
+                .then(res => {
+                    message.success(`${res.data.firstName} Registrado correctamente`);
+                    setTimeout(() => {
+                        history.push("/")
+                    }, 1500);
+    
+                })
+                .catch(error => message.error(error.message))
 
-            })
-            .catch(error => message.error(error.message))
+        }else{
             message.error("El Password debe de ser entre 8 y 10 caracteres con Mayusculas, minúsculas y caracter especial")
+
+        }
 
     }
     return (
